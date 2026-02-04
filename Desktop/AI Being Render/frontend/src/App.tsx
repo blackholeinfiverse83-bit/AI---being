@@ -185,7 +185,7 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-b from-iosGray-100 to-white dark:from-black dark:to-iosGray-900">
+    <div className="h-screen flex overflow-hidden bg-gradient-to-b from-iosGray-100 to-white dark:from-black dark:to-iosGray-900">
       <ChatSidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
