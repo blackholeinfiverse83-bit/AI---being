@@ -63,6 +63,15 @@ export interface ConversationMessage {
   error?: string;
 }
 
+export interface Conversation {
+  id: string;
+  title: string;
+  messages: ConversationMessage[];
+  timestamp: string;
+}
+
+
+
 
 // Search Types
 export interface SearchRequest {

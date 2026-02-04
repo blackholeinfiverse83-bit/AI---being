@@ -35,8 +35,9 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, isLoading })
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 backdrop-blur-xl bg-white/80 dark:bg-iosGray-900/80 border-t border-iosGray-200/50 dark:border-iosGray-800/50 px-4 py-4 z-10">
-      <div className="max-w-4xl mx-auto">
+
+    <div className="w-full backdrop-blur-xl bg-white/80 dark:bg-iosGray-900/80 border-t border-iosGray-200/50 dark:border-iosGray-800/50 px-4 py-4 z-10">
+      <div className="w-full">
         <div className="flex items-end gap-3">
           <div className="flex-1">
             <div className="relative">
