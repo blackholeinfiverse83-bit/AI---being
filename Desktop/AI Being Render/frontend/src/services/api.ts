@@ -67,7 +67,7 @@ class ApiService {
 
       // Add timeout to prevent hanging
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
 
       // Call the correct endpoint: /api/assistant
       const response = await fetch(`${API_BASE_URL}/api/assistant`, {
@@ -277,8 +277,8 @@ class ApiService {
    * Get performance metrics and recommendations
    */
   async getPerformanceInsights(): Promise<import('../types').PerformanceInsights> {
-     // STUB: Analytics not supported
-     throw new Error('Analytics not supported');
+    // STUB: Analytics not supported
+    throw new Error('Analytics not supported');
   }
 
 }
