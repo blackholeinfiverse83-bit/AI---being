@@ -27,6 +27,20 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   error,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  const speakText = (text: string) => {
+    if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = u.onerror = () => setIsSpeaking(false);
+    window.speechSynthesis.speak(u);
+  };
+  const stopSpeaking = () => {
+    if (typeof window !== 'undefined') window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+  };
   // User message bubble - iOS style
   const UserBubble = () => (
     <div className="flex justify-end mb-4">
@@ -182,10 +196,23 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
 
             {/* Main Response */}
             {displayResponseText && (
-              <div className="mb-3">
-                <p className="text-iosGray-900 dark:text-white text-[15px] leading-relaxed whitespace-pre-wrap font-sf">
+              <div className="mb-3 flex items-start gap-2">
+                <p className="flex-1 text-iosGray-900 dark:text-white text-[15px] leading-relaxed whitespace-pre-wrap font-sf">
                   {displayResponseText}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => (isSpeaking ? stopSpeaking() : speakText(displayResponseText))}
+                  className="flex-shrink-0 p-1.5 rounded-full text-iosGray-500 hover:text-iosBlue-500 hover:bg-iosBlue-50 dark:hover:bg-iosBlue-900/30 transition-colors"
+                  title={isSpeaking ? 'Stop playback' : 'Listen'}
+                  aria-label={isSpeaking ? 'Stop playback' : 'Listen to message'}
+                >
+                  {isSpeaking ? (
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                  )}
+                </button>
               </div>
             )}
 
