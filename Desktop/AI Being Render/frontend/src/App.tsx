@@ -6,6 +6,7 @@ import MessageInput from './components/MessageInput';
 import ChatMessage from './components/ChatMessage';
 import Toast from './components/Toast';
 import ConnectionStatus from './components/ConnectionStatus';
+import LanguageDropdown from './components/LanguageDropdown';
 import SearchPanel from './components/SearchPanel';
 import ResearchPanel from './components/ResearchPanel';
 import SystemInfoPanel from './components/SystemInfoPanel';
@@ -224,15 +225,18 @@ function App() {
                     </svg>
                   </button>
                   <span className="inline-block w-2.5 h-2.5 bg-iosBlue-500 rounded-full animate-pulse"></span>
-                  AI Assistant
+                  Mitra
                 </h1>
-                <p className="text-sm text-iosGray-600 dark:text-iosGray-400 mt-1 font-sf">
-                  Your unified AI assistant with advanced capabilities
+                <p className="text-xs text-iosGray-500 dark:text-iosGray-500 mt-0.5 font-sf">
+                  AI Being
                 </p>
               </div>
-              <div className="text-right">
-                <div className="text-xs text-iosGray-500 dark:text-iosGray-500 font-sf">Status</div>
-                <div className="text-sm font-medium text-iosBlue-500 font-sf">Online</div>
+              <div className="flex items-center gap-4">
+                <LanguageDropdown />
+                <div className="text-right">
+                  <div className="text-xs text-iosGray-500 dark:text-iosGray-500 font-sf">Status</div>
+                  <div className="text-sm font-medium text-iosBlue-500 font-sf">Online</div>
+                </div>
               </div>
             </div>
           </div>
