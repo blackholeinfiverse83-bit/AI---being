@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const LANGUAGES: { code: string; label: string }[] = [
   { code: 'en', label: 'English' },
@@ -39,6 +40,7 @@ const LanguageDropdown: React.FC = () => {
   const [ready, setReady] = useState(false);
   const [selectedLang, setSelectedLang] = useState('en');
   const [isInitializing, setIsInitializing] = useState(false);
+  const { setLanguage } = useLanguage();
 
   // Initialize Google Translate Widget
   useEffect(() => {
@@ -135,6 +137,9 @@ const LanguageDropdown: React.FC = () => {
       return;
     }
 
+    // Update language context for TTS
+    setLanguage(code);
+
     if (code === 'en') {
       // Reset to English by clearing Google Translate cookie and reloading
       // The googtrans cookie stores the translation state
@@ -160,7 +165,7 @@ const LanguageDropdown: React.FC = () => {
     }
     
     setOpen(false);
-  }, []);
+  }, [setLanguage]);
 
   const currentLangLabel = LANGUAGES.find(l => l.code === selectedLang)?.label || 'Language';
 

@@ -4,6 +4,7 @@ import StatusIndicator from './StatusIndicator';
 import ActionCard from './ActionCard';
 import NextStepHint from './NextStepHint';
 import LoadingSpinner from './LoadingSpinner';
+import { useLanguage } from '../contexts/LanguageContext';
 import {
   translateIntent,
   translateTaskType,
@@ -28,11 +29,14 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
 }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const { currentLanguage } = useLanguage();
 
   const speakText = (text: string) => {
     if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
+    // Set the language for speech synthesis based on current language
+    u.lang = currentLanguage === 'zh-CN' ? 'zh-CN' : currentLanguage;
     u.onstart = () => setIsSpeaking(true);
     u.onend = u.onerror = () => setIsSpeaking(false);
     window.speechSynthesis.speak(u);

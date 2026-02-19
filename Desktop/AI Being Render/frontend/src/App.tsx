@@ -8,6 +8,7 @@ import Toast from './components/Toast';
 import ConnectionStatus from './components/ConnectionStatus';
 import LanguageDropdown from './components/LanguageDropdown';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 
@@ -322,9 +323,11 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
 
