@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { AssistantResponse } from '../types';
 import StatusIndicator from './StatusIndicator';
 import ActionCard from './ActionCard';
@@ -30,11 +30,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   const [showDetails, setShowDetails] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const { currentLanguage } = useLanguage();
+  const messageTextRef = useRef<HTMLParagraphElement>(null);
 
-  const speakText = (text: string) => {
-    if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
+  const speakText = () => {
+    // Get the translated text from the DOM element (Google Translate modifies this)
+    const textToSpeak = messageTextRef.current?.textContent || displayResponseText;
+    if (!textToSpeak || typeof window === 'undefined' || !window.speechSynthesis) return;
+    
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(textToSpeak);
     // Set the language for speech synthesis based on current language
     u.lang = currentLanguage === 'zh-CN' ? 'zh-CN' : currentLanguage;
     u.onstart = () => setIsSpeaking(true);
@@ -201,12 +205,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             {/* Main Response */}
             {displayResponseText && (
               <div className="mb-3 flex items-start gap-2">
-                <p className="flex-1 text-iosGray-900 dark:text-white text-[15px] leading-relaxed whitespace-pre-wrap font-sf">
+                <p ref={messageTextRef} className="flex-1 text-iosGray-900 dark:text-white text-[15px] leading-relaxed whitespace-pre-wrap font-sf">
                   {displayResponseText}
                 </p>
                 <button
                   type="button"
-                  onClick={() => (isSpeaking ? stopSpeaking() : speakText(displayResponseText))}
+                  onClick={() => (isSpeaking ? stopSpeaking() : speakText())}
                   className="flex-shrink-0 p-1.5 rounded-full text-iosGray-500 hover:text-iosBlue-500 hover:bg-iosBlue-50 dark:hover:bg-iosBlue-900/30 transition-colors"
                   title={isSpeaking ? 'Stop playback' : 'Listen'}
                   aria-label={isSpeaking ? 'Stop playback' : 'Listen to message'}
